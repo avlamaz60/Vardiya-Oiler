@@ -1,87 +1,156 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0d2d44">
-<link rel="manifest" href="manifest.json">
-<title>Yağcı Vardiya</title>
-<style>
-:root{--bg:#0b1822;--card:#132635;--card2:#1a3142;--text:#f5f7fa;--muted:#9fb0bd;--accent:#49a2dc;--good:#2ca36c;--line:#294251;--warn:#ffbd59}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
-body{padding:calc(env(safe-area-inset-top) + 12px) 12px calc(env(safe-area-inset-bottom) + 24px)}
-main{max-width:640px;margin:auto}
-.top{display:flex;justify-content:space-between;align-items:center;margin:6px 4px 14px}
-h1{font-size:25px;margin:0}.shift{font-size:12px;color:var(--muted);text-align:right}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin:12px 0}
-.label{font-size:12px;font-weight:800;color:var(--muted);margin:2px 0 8px;text-transform:uppercase;letter-spacing:.04em}
-.sections{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-.choice{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:14px;padding:13px 10px;font-weight:800;font-size:15px;text-align:center}
-.choice.active{background:var(--accent);border-color:var(--accent);color:#06131c}
-.dggrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.dg{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:11px;padding:10px 4px;font-weight:800}
-.dg.active{background:#e8f4fc;color:#0d2d44;border-color:#e8f4fc}
-.brand{text-align:center;color:var(--muted);font-size:13px;margin:9px 0 0}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.action{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:13px;padding:12px 8px;font-size:14px;font-weight:800;min-height:48px}
-.action.active{background:var(--warn);border-color:var(--warn);color:#2b1b00}
-input,textarea{width:100%;border:1px solid var(--line);background:#0d202d;color:var(--text);border-radius:13px;padding:13px;font-size:17px;outline:none}
-textarea{min-height:76px;resize:none}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.save{width:100%;border:0;border-radius:14px;background:var(--good);color:white;padding:14px;font-size:17px;font-weight:900;margin-top:10px}
-.save:active{transform:scale(.99)}
-.toolbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:9px}
-.tool{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:11px;padding:10px 4px;font-size:13px;font-weight:800}
-.log{padding:11px 0;border-top:1px solid var(--line)}.log:first-child{border-top:0}
-.logtop{display:flex;justify-content:space-between;gap:8px}.pill{background:#214058;border-radius:999px;padding:4px 8px;font-size:12px;font-weight:800}
-.time{color:var(--muted);font-size:12px}.detail{font-size:14px;line-height:1.45;margin-top:6px}
-.empty{color:var(--muted);font-size:14px;padding:8px 0}
-.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#eef7ed;color:#143d24;padding:10px 14px;border-radius:999px;font-weight:800;font-size:13px;opacity:0;pointer-events:none;transition:.2s}
-.toast.show{opacity:1}
-.hidden{display:none!important}
-@media(max-width:390px){.dggrid{grid-template-columns:repeat(3,1fr)}.row{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0e2433">
+  <link rel="manifest" href="manifest.json">
+  <title>Vardiya Oiler V2</title>
+  <style>
+    :root{
+      --bg:#08131c; --panel:rgba(10,22,31,.78); --panel2:rgba(17,35,47,.88);
+      --line:rgba(255,255,255,.12); --text:#f4f7fa; --muted:#a7b6c3;
+      --accent:#4ea8de; --accent2:#ffbe55; --good:#2ca36c; --danger:#ca4b4b;
+      --pill:#21394d; --shadow:0 10px 30px rgba(0,0,0,.28);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;padding:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
+    body{
+      background:
+        linear-gradient(rgba(6,15,22,.72),rgba(7,14,20,.80)),
+        url('main-engine-bg.png') center/cover fixed no-repeat;
+      min-height:100vh;
+      padding:calc(env(safe-area-inset-top) + 12px) 12px calc(env(safe-area-inset-bottom) + 20px);
+    }
+    main{max-width:760px;margin:0 auto}
+    .top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:2px 2px 14px}
+    h1{margin:0;font-size:28px}
+    .sub{font-size:12px;color:var(--muted);text-align:right;line-height:1.45}
+    .card{background:var(--panel);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;padding:14px;margin:12px 0;box-shadow:var(--shadow)}
+    .label{font-size:12px;font-weight:800;letter-spacing:.05em;color:var(--muted);margin:2px 0 8px;text-transform:uppercase}
+    .tabs,.chips,.seg{display:flex;gap:8px;overflow:auto;padding-bottom:2px}
+    .tabs button,.chips button,.seg button,.tool,.bigbtn{
+      border:1px solid var(--line);background:var(--panel2);color:var(--text);
+      border-radius:14px;padding:11px 12px;font-size:14px;font-weight:800;white-space:nowrap
+    }
+    .tabs button.active,.chips button.active,.seg button.active,.bigbtn.active{background:var(--accent);color:#07141c;border-color:transparent}
+    .chips{display:grid;grid-template-columns:repeat(2,1fr)}
+    .chips button{white-space:normal;text-align:center}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    input,textarea{
+      width:100%;border:1px solid var(--line);background:rgba(7,18,25,.88);
+      color:var(--text);border-radius:14px;padding:12px 13px;font-size:16px;outline:none
+    }
+    textarea{min-height:78px;resize:none}
+    .save{width:100%;border:0;border-radius:14px;background:var(--good);color:#fff;padding:14px;font-size:17px;font-weight:900;margin-top:10px}
+    .toolbar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+    .tool{font-size:13px}
+    .count{background:var(--pill);padding:5px 8px;border-radius:999px;font-size:12px;font-weight:800}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+    .log{padding:12px 0;border-top:1px solid var(--line)}
+    .log:first-child{border-top:0}
+    .logtop{display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .pill{background:var(--pill);padding:5px 8px;border-radius:999px;font-size:12px;font-weight:800}
+    .time{font-size:12px;color:var(--muted)}
+    .detail{font-size:14px;line-height:1.5;margin-top:7px}
+    .empty{color:var(--muted);font-size:14px;padding:8px 0}
+    .muted{color:var(--muted)}
+    .hidden{display:none!important}
+    .toast{
+      position:fixed;left:50%;transform:translateX(-50%);
+      bottom:calc(env(safe-area-inset-bottom) + 18px);
+      background:#eff9ef;color:#104121;padding:10px 14px;border-radius:999px;
+      font-size:13px;font-weight:900;opacity:0;transition:.2s;pointer-events:none
+    }
+    .toast.show{opacity:1}
+    @media(max-width:480px){
+      .grid4{grid-template-columns:repeat(3,1fr)}
+      .row,.row3,.toolbar,.chips{grid-template-columns:1fr}
+      .tabs,.seg{display:flex}
+    }
+  </style>
 </head>
 <body>
 <main>
-<div class="top"><h1>Yağcı Vardiya</h1><div class="shift" id="shiftInfo"></div></div>
+  <div class="top">
+    <div>
+      <h1>Vardiya Oiler V2</h1>
+      <div class="muted" style="font-size:13px">Ana makina arka planlı sürüm</div>
+    </div>
+    <div class="sub" id="shiftInfo"></div>
+  </div>
 
-<div class="card">
-<div class="label">1. Bölüm</div>
-<div class="sections" id="sections"></div>
-</div>
+  <div class="card">
+    <div class="label">1. Kategori</div>
+    <div class="tabs" id="categoryTabs"></div>
+    <div id="subSectionBlock" class="hidden" style="margin-top:10px">
+      <div class="label">Alt Seçim</div>
+      <div class="seg" id="subSectionTabs"></div>
+    </div>
+    <div id="dgBlock" class="hidden" style="margin-top:10px">
+      <div class="label">DG Seç</div>
+      <div class="grid4" id="dgButtons"></div>
+    </div>
+  </div>
 
-<div class="card hidden" id="dgCard">
-<div class="label">2. DG Seç</div>
-<div class="dggrid" id="dgGrid"></div>
-<div class="brand" id="brand"></div>
-</div>
+  <div class="card">
+    <div class="label">2. Sık Kullanılanlar</div>
+    <div class="chips" id="frequentActions"></div>
+    <div class="label" style="margin-top:12px">Tüm Seçenekler</div>
+    <div class="chips" id="allActions"></div>
+  </div>
 
-<div class="card">
-<div class="label" id="actionLabel">2. Yapılan İş</div>
-<div class="actions" id="actions"></div>
-</div>
+  <div class="card">
+    <div class="row">
+      <div>
+        <div class="label">Başlangıç Değeri</div>
+        <input id="startValue" placeholder="örn. 35 cm">
+      </div>
+      <div>
+        <div class="label">Bitiş / Son Değer</div>
+        <input id="endValue" placeholder="örn. 42 cm">
+      </div>
+    </div>
+    <div class="row3" style="margin-top:8px">
+      <div>
+        <div class="label">Kaynak / Yer</div>
+        <input id="sourceValue" placeholder="örn. kıç storage">
+      </div>
+      <div>
+        <div class="label">Adet / Tekrar</div>
+        <input id="countValue" placeholder="örn. 4 kez">
+      </div>
+      <div>
+        <div class="label">Saat (opsiyonel)</div>
+        <input id="manualTime" placeholder="örn. 04:15">
+      </div>
+    </div>
+    <div class="label" style="margin-top:10px">Not</div>
+    <textarea id="note" placeholder="Gerekirse kısa not"></textarea>
+    <button class="save" id="saveBtn">KAYDET</button>
+  </div>
 
-<div class="card">
-<div class="row">
-  <div><div class="label">Değer / Miktar</div><input id="value" placeholder="örn. 2.50 → 3.50 bar"></div>
-  <div><div class="label">Saat (opsiyonel)</div><input id="manualTime" placeholder="örn. 04:15"></div>
-</div>
-<div class="label" style="margin-top:12px">Kısa Not</div>
-<textarea id="note" placeholder="Gerekirse kısa açıklama..."></textarea>
-<button class="save" id="saveBtn">KAYDET</button>
-</div>
-
-<div class="card">
-<div class="logtop"><strong>Bu Vardiya</strong><span class="pill" id="count">0 kayıt</span></div>
-<div id="logs"></div>
-<div class="toolbar">
-<button class="tool" id="shareBtn">Paylaş / Kopyala</button>
-<button class="tool" id="csvBtn">CSV İndir</button>
-<button class="tool" id="clearBtn">Vardiyayı Temizle</button>
-</div>
-</div>
+  <div class="card">
+    <div class="label">3. Kayıtlar</div>
+    <div class="seg" id="viewTabs">
+      <button data-view="current" class="active">Bu Vardiya</button>
+      <button data-view="previous">Önceki Vardiya</button>
+      <button data-view="all">Tüm Geçmiş</button>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0 4px">
+      <strong id="listTitle">Bu Vardiya</strong>
+      <span class="count" id="countBadge">0 kayıt</span>
+    </div>
+    <div id="logs"></div>
+    <div class="toolbar">
+      <button class="tool" id="shareBtn">Paylaş / Kopyala</button>
+      <button class="tool" id="csvBtn">CSV İndir</button>
+      <button class="tool" id="clearBtn">Listeyi Temizle</button>
+    </div>
+  </div>
 </main>
 <div class="toast" id="toast">Kaydedildi</div>
 <script src="app.js"></script>

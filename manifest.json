@@ -1,9 +1,9 @@
 {
-  "name": "Yağcı Vardiya",
-  "short_name": "Yağcı",
+  "name": "Vardiya Oiler V2",
+  "short_name": "VardiyaOiler",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#0b1822",
-  "theme_color": "#0d2d44",
+  "background_color": "#08131c",
+  "theme_color": "#0e2433",
   "lang": "tr"
 }
