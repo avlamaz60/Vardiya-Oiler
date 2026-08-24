@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d2d44">
+<link rel="manifest" href="manifest.json">
+<title>Yağcı Vardiya</title>
+<style>
+:root{--bg:#0b1822;--card:#132635;--card2:#1a3142;--text:#f5f7fa;--muted:#9fb0bd;--accent:#49a2dc;--good:#2ca36c;--line:#294251;--warn:#ffbd59}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif}
+body{padding:calc(env(safe-area-inset-top) + 12px) 12px calc(env(safe-area-inset-bottom) + 24px)}
+main{max-width:640px;margin:auto}
+.top{display:flex;justify-content:space-between;align-items:center;margin:6px 4px 14px}
+h1{font-size:25px;margin:0}.shift{font-size:12px;color:var(--muted);text-align:right}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin:12px 0}
+.label{font-size:12px;font-weight:800;color:var(--muted);margin:2px 0 8px;text-transform:uppercase;letter-spacing:.04em}
+.sections{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.choice{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:14px;padding:13px 10px;font-weight:800;font-size:15px;text-align:center}
+.choice.active{background:var(--accent);border-color:var(--accent);color:#06131c}
+.dggrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.dg{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:11px;padding:10px 4px;font-weight:800}
+.dg.active{background:#e8f4fc;color:#0d2d44;border-color:#e8f4fc}
+.brand{text-align:center;color:var(--muted);font-size:13px;margin:9px 0 0}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.action{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:13px;padding:12px 8px;font-size:14px;font-weight:800;min-height:48px}
+.action.active{background:var(--warn);border-color:var(--warn);color:#2b1b00}
+input,textarea{width:100%;border:1px solid var(--line);background:#0d202d;color:var(--text);border-radius:13px;padding:13px;font-size:17px;outline:none}
+textarea{min-height:76px;resize:none}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.save{width:100%;border:0;border-radius:14px;background:var(--good);color:white;padding:14px;font-size:17px;font-weight:900;margin-top:10px}
+.save:active{transform:scale(.99)}
+.toolbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:9px}
+.tool{border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:11px;padding:10px 4px;font-size:13px;font-weight:800}
+.log{padding:11px 0;border-top:1px solid var(--line)}.log:first-child{border-top:0}
+.logtop{display:flex;justify-content:space-between;gap:8px}.pill{background:#214058;border-radius:999px;padding:4px 8px;font-size:12px;font-weight:800}
+.time{color:var(--muted);font-size:12px}.detail{font-size:14px;line-height:1.45;margin-top:6px}
+.empty{color:var(--muted);font-size:14px;padding:8px 0}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#eef7ed;color:#143d24;padding:10px 14px;border-radius:999px;font-weight:800;font-size:13px;opacity:0;pointer-events:none;transition:.2s}
+.toast.show{opacity:1}
+.hidden{display:none!important}
+@media(max-width:390px){.dggrid{grid-template-columns:repeat(3,1fr)}.row{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><h1>Yağcı Vardiya</h1><div class="shift" id="shiftInfo"></div></div>
+
+<div class="card">
+<div class="label">1. Bölüm</div>
+<div class="sections" id="sections"></div>
+</div>
+
+<div class="card hidden" id="dgCard">
+<div class="label">2. DG Seç</div>
+<div class="dggrid" id="dgGrid"></div>
+<div class="brand" id="brand"></div>
+</div>
+
+<div class="card">
+<div class="label" id="actionLabel">2. Yapılan İş</div>
+<div class="actions" id="actions"></div>
+</div>
+
+<div class="card">
+<div class="row">
+  <div><div class="label">Değer / Miktar</div><input id="value" placeholder="örn. 2.50 → 3.50 bar"></div>
+  <div><div class="label">Saat (opsiyonel)</div><input id="manualTime" placeholder="örn. 04:15"></div>
+</div>
+<div class="label" style="margin-top:12px">Kısa Not</div>
+<textarea id="note" placeholder="Gerekirse kısa açıklama..."></textarea>
+<button class="save" id="saveBtn">KAYDET</button>
+</div>
+
+<div class="card">
+<div class="logtop"><strong>Bu Vardiya</strong><span class="pill" id="count">0 kayıt</span></div>
+<div id="logs"></div>
+<div class="toolbar">
+<button class="tool" id="shareBtn">Paylaş / Kopyala</button>
+<button class="tool" id="csvBtn">CSV İndir</button>
+<button class="tool" id="clearBtn">Vardiyayı Temizle</button>
+</div>
+</div>
+</main>
+<div class="toast" id="toast">Kaydedildi</div>
+<script src="app.js"></script>
+</body>
+</html>

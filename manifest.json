@@ -1,0 +1,9 @@
+{
+  "name": "Yağcı Vardiya",
+  "short_name": "Yağcı",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b1822",
+  "theme_color": "#0d2d44",
+  "lang": "tr"
+}
